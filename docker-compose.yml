@@ -1,9 +1,14 @@
 services:
     eureka-server:
         container_name: eureka-server
-        image: steeltoeoss/eurekaserver:latest
+        image: steeltoeoss/eurekaserver:1.4.4
         restart: on-failure
         hostname: eureka-server
+        healthcheck:
+            test: ["CMD", "curl", "-fs", "-o", "/dev/null", "http://localhost:8761/eureka/apps"]
+            interval: 3s
+            timeout: 3s
+            retries: 40
         networks:
             - common_network
 

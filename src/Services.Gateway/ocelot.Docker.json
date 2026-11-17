@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://services.gateway:9500",
+    "BaseUrl": "http://localhost:9500",
     "ServiceDiscoveryProvider": {
       "Host": "eureka-server",
       "Port": 8761,

@@ -30,26 +30,25 @@ The following configuration shows how to set up multiple downstream services for
     {
       "ServiceName": "SERVICE.OPENAPI",
       "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "GET" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 15
-      },
+      "UseServiceDiscovery": true,
+      "RouteIsCaseSensitive": false,
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5000,
+        "TimeoutValue": 2000
       }
     }
   ],
   "GlobalConfiguration": {
     "RequestIdKey": "OcRequestId",
     "DownstreamScheme": "http",
-    "ReRoutesCaseSensitive": false,
-    "UseServiceDiscovery": true,
-    "ServiceDiscoveryProvider": {
-      "Host": "services.gateway",
-      "Port": 8761,
-      "Type": "Eureka"
-    }
+    "UseServiceDiscovery": true
   }
 }
 ```
@@ -72,30 +71,41 @@ After this step client is able to get information about this service by querying
 **ServiceA.OpenApi** appsettings.json file:
 ```json
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
   "Spring": {
     "Application": {
       "Name": "SERVICE.OPENAPI"
     }
   },
+  // Eureka settings
+  // https://docs.steeltoe.io/api/v4/discovery/netflix-eureka.html
   "Eureka": {
     "Client": {
       "ServiceUrl": "http://localhost:8761/eureka/",
+      "ShouldFetchRegistry": true,
+      "ShouldRegisterWithEureka": true,
+      "Health": {
+        "CheckEnabled": true
+      },
+      "RegistryFetchIntervalSeconds": "15",
       "ValidateCertificates": false,
-      "ShouldRegisterWithEureka": true
+      "EurekaServer": {
+        "ConnectTimeoutSeconds": 30
+      }
     },
     "Instance": {
       "NonSecurePort": 9100,
       "HostName": "localhost",
       "InstanceId": "ServiceA.OpenApi,Port:9100",
-      "HealthCheckUrlPath": "/api/values/healthcheck",
-      "StatusPageUrlPath": "/api/values/status"
+      "HealthCheckUrlPath": "/health",
+      "StatusPageUrlPath": "/api/values/status",
+      "LeaseRenewalIntervalInSeconds": "5"
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   },
   "AllowedHosts": "*"
@@ -104,30 +114,40 @@ After this step client is able to get information about this service by querying
 **ServiceB.OpenApi** appsettings.json file:
 ```json
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
   "Spring": {
     "Application": {
       "Name": "SERVICE.OPENAPI"
     }
   },
+  // Eureka settings
+  // https://docs.steeltoe.io/api/v4/discovery/netflix-eureka.html
   "Eureka": {
     "Client": {
       "ServiceUrl": "http://localhost:8761/eureka/",
       "ValidateCertificates": false,
-      "ShouldRegisterWithEureka": true
+      "ShouldRegisterWithEureka": true,
+      "Health": {
+        "CheckEnabled": true
+      },
+      "RegistryFetchIntervalSeconds": "15",
+      "EurekaServer": {
+        "ConnectTimeoutSeconds": 30
+      }
     },
     "Instance": {
       "NonSecurePort": 9200,
       "HostName": "localhost",
       "InstanceId": "ServiceB.OpenApi,Port:9200",
-      "HealthCheckUrlPath": "/api/values/healthcheck",
-      "StatusPageUrlPath": "/api/values/status"
+      "HealthCheckUrlPath": "/health",
+      "StatusPageUrlPath": "/api/values/status",
+      "LeaseRenewalIntervalInSeconds": "5"
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   },
   "AllowedHosts": "*"
@@ -136,31 +156,40 @@ After this step client is able to get information about this service by querying
 **ServiceC.OpenApi** appsettings.json file:
 ```json
 {
-  "$schema": "https://steeltoe.io/schema/latest/schema.json",
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
   "Spring": {
     "Application": {
       "Name": "SERVICE.OPENAPI"
     }
   },
+  // Eureka settings
+  // https://docs.steeltoe.io/api/v4/discovery/netflix-eureka.html
   "Eureka": {
     "Client": {
       "ServiceUrl": "http://localhost:8761/eureka/",
       "ValidateCertificates": false,
-      "ShouldRegisterWithEureka": true
+      "ShouldRegisterWithEureka": true,
+      "Health": {
+        "CheckEnabled": true
+      },
+      "RegistryFetchIntervalSeconds": "15",
+      "EurekaServer": {
+        "ConnectTimeoutSeconds": 30
+      }
     },
     "Instance": {
       "NonSecurePort": 9300,
       "HostName": "localhost",
       "InstanceId": "ServiceC.OpenApi,Port:9300",
-      "healthCheckUrlPath": "/api/values/healthcheck",
-      "statusPageUrlPath": "/api/values/status"
+      "HealthCheckUrlPath": "/health",
+      "StatusPageUrlPath": "/api/values/status",
+      "LeaseRenewalIntervalInSeconds": "5"
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   },
   "AllowedHosts": "*"
@@ -176,10 +205,24 @@ You can easily test and debug solution locally. You have to ...
 ![](res/RunLocal2.jpg)
 
 3. Spin up Eureka in Docker with:  
-**docker run -p 8761:8761 steeltoeoss/eureka-server**  
+**docker run -p 8761:8761 steeltoeoss/eurekaserver:1.4.4**  
 and wait a minute to start up ...
 
 4. Run multiple projects from Visual studio
+
+# Running the Tests
+Each project has its own test project in the **tests** folder:
+
+* **ServiceA.OpenApi.Tests**, **ServiceB.OpenApi.Tests**, **ServiceC.OpenApi.Tests** - endpoints of each service (`/`, `/api/values`, `/api/values/status`, `/health` and the `badcode` error)
+* **Services.Gateway.Tests** - the gateway's own endpoints, that `/api/values` is routed by Ocelot through the Eureka provider, and the Ocelot route configuration (RoundRobin, QoS)
+
+The tests host each app in memory with **xUnit v3** and `WebApplicationFactory`, with the Eureka client switched off, so neither Eureka nor Docker is needed. Run them all from the solution folder with:
+
+```
+dotnet test --solution Ocelot.Gateway.Eureka.ServiceDiscovery.Demo.sln
+```
+
+The tests use **Microsoft.Testing.Platform**, which is selected for `dotnet test` in **global.json**. They also run from the Test Explorer in Visual Studio.
 
 # Running in Docker
 
@@ -189,9 +232,14 @@ and wait a minute to start up ...
 services:
     eureka-server:
         container_name: eureka-server
-        image: steeltoeoss/eurekaserver:latest
+        image: steeltoeoss/eurekaserver:1.4.4
         restart: on-failure
         hostname: eureka-server
+        healthcheck:
+            test: ["CMD", "curl", "-fs", "-o", "/dev/null", "http://localhost:8761/eureka/apps"]
+            interval: 3s
+            timeout: 3s
+            retries: 40
         networks:
             - common_network
 
@@ -242,7 +290,6 @@ services:
 networks:
     common_network:
         driver: bridge
-
 ```
 and **Docker-compose.override.yml** file:
 ```yml
@@ -256,44 +303,51 @@ services:
     servicea.openapi:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
-            - ASPNETCORE_URLS=http://+:8080
-            - EUREKA_CLIENT_SERVICEURL=http://eureka-server:8761/eureka
+            - ASPNETCORE_URLS=http://+:9100
+            - Eureka__Client__ServiceUrl=http://eureka-server:8761/eureka/
         ports:
-            - 9100:8080
+            - 9100:9100
         depends_on:
-            - eureka-server
+            eureka-server:
+                condition: service_healthy
 
     serviceb.openapi:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
-            - ASPNETCORE_URLS=http://+:8080
-            - EUREKA_CLIENT_SERVICEURL=http://eureka-server:8761/eureka
+            - ASPNETCORE_URLS=http://+:9200
+            - Eureka__Client__ServiceUrl=http://eureka-server:8761/eureka/
         ports:
-            - 9200:8080
+            - 9200:9200
         depends_on:
-            - eureka-server
+            eureka-server:
+                condition: service_healthy
 
     servicec.openapi:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
-            - ASPNETCORE_URLS=http://+:8080
-            - EUREKA_CLIENT_SERVICEURL=http://eureka-server:8761/eureka
+            - ASPNETCORE_URLS=http://+:9300
+            - Eureka__Client__ServiceUrl=http://eureka-server:8761/eureka/
         ports:
-            - 9300:8080
+            - 9300:9300
         depends_on:
-            - eureka-server
+            eureka-server:
+                condition: service_healthy
 
     services.gateway:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
-            - ASPNETCORE_URLS=http://+:8080
-            - EUREKA_CLIENT_SERVICEURL=http://eureka-server:8761/eureka
+            - Eureka__Client__ServiceUrl=http://eureka-server:8761/eureka/
         ports:
             - 9500:8080
         depends_on:
-            - servicea.openapi
-            - serviceb.openapi
-            - servicec.openapi
+            eureka-server:
+                condition: service_healthy
+            servicea.openapi:
+                condition: service_started
+            serviceb.openapi:
+                condition: service_started
+            servicec.openapi:
+                condition: service_started
 ```
 # Setup the Containers
 To execute compose file, open Powershell, and navigate to the compose file in the root folder. Then execute the following command: **docker-compose up -d --build --remove-orphans**. The -d parameter executes the command detached. This means that the containers run in the background and don’t block your Powershell window. To check all running Containers use **docker ps**.
@@ -313,12 +367,12 @@ And so on...
 [Ocelot](https://github.com/ThreeMammals/Ocelot) successfuly comunicates with [Eureka](https://spring.io/projects/spring-cloud-netflix) service registry and retrives service registrations, load balancer loops through available services and sends requests. It works! Enjoy!
 
 ## Prerequisites
-- [Visual Studio](https://www.visualstudio.com/vs/community) 2022 17.2.6 or greater
-- [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Visual Studio](https://www.visualstudio.com/vs/community) 2026 or greater
+- [.NET SDK 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Docker](https://www.docker.com/resources/what-container)
 
 ## Tags & Technologies
-- [.NET 8](https://github.com/dotnet/core/blob/main/release-notes/8.0)
+- [.NET 10](https://github.com/dotnet/core/blob/main/release-notes/10.0)
 - [Ocelot](https://github.com/ThreeMammals/Ocelot)  
 - [Eureka](https://spring.io/projects/spring-cloud-netflix)
 
