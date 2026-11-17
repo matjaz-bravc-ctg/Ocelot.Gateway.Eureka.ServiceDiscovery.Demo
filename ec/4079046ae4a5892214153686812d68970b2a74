@@ -1,0 +1,107 @@
+src/ServiceB.OpenApi/Controllers/ValuesController.cs
+  s_d6b825e398babf::t_a56e75de76761d 9,11,20-21,29-30
+Directory.Build.props
+  s_d6b825e398babf::t_75bbc934c21286 1-7
+src/ServiceC.OpenApi/Controllers/ValuesController.cs
+  s_d6b825e398babf::t_a56e75de76761d 9,11,20-21,29-30
+docker-compose.yml
+  s_d6b825e398babf::t_269b3bf74233b5 4,7-11
+tests/ServiceC.OpenApi.Tests/ServiceCFactory.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-2,5,7-11,13-15,17-18
+global.json
+  s_d6b825e398babf::t_0935beff844029 1-5
+src/ServiceA.OpenApi/Controllers/ValuesController.cs
+  s_d6b825e398babf::t_a56e75de76761d 9,11,20-21,29-30
+src/ServiceA.OpenApi/appsettings.json
+  s_d6b825e398babf::t_a56e75de76761d 8,14-16,19-21,24,27
+tests/ServiceB.OpenApi.Tests/ServiceEndpointTests.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-61
+tests/Services.Gateway.Tests/GatewayTests.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1,5,7,9,11,13-14,16-26,29,35-36,45-56
+  s_d6b825e398babf::t_2b740777a0fdf7 30,32-34,37-44
+README.md
+  s_d6b825e398babf::t_bbdc36c5e1c98a 33,36-37,40-44,51,79-80,84-89,91-93,99-101,111-116,122-123,128-135,141-143,153-158,164-165,170-177,183-192,208,235,238-242,306-307,309,311-312,317-318,320,322-323,328-329,331,333-334,339,343-350
+  s_d6b825e398babf::t_73547ff192f83a 222
+  s_d6b825e398babf::t_ad9ca6c2eeea1e 370-371,375
+  s_d6b825e398babf::t_68ed2cd403ecc8 213-221,223-226
+src/Services.Gateway/Services.Gateway.csproj
+  s_d6b825e398babf::t_bfe7c65af090c9 2-16
+src/ServiceB.OpenApi/Dockerfile
+  s_d6b825e398babf::t_a56e75de76761d 4,10,13
+Directory.Packages.props
+  s_d6b825e398babf::t_41d502ba0b1e38 11-14
+  s_d6b825e398babf::t_076d9833fdb815 1-10,15
+docker-compose.override.yml
+  s_d6b825e398babf::t_269b3bf74233b5 12,14,16-17,23,25,27-28,34,36,38-39,44,48-55
+src/ServiceB.OpenApi/appsettings.json
+  s_d6b825e398babf::t_a56e75de76761d 8,14-16,18-20,26
+src/Services.Gateway/Dockerfile
+  s_d6b825e398babf::t_269b3bf74233b5 14
+  s_d6b825e398babf::t_ad9ca6c2eeea1e 4,11
+tests/ServiceC.OpenApi.Tests/ServiceEndpointTests.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-61
+src/ServiceB.OpenApi/Program.cs
+  s_d6b825e398babf::t_a56e75de76761d 1,3,5-7,9-15
+src/ServiceC.OpenApi/Program.cs
+  s_d6b825e398babf::t_a56e75de76761d 1,3,5-7,9-15
+src/Services.Gateway/ocelot.json
+  s_d6b825e398babf::t_98171a7c58dba8 13-17
+tests/ServiceB.OpenApi.Tests/ServiceB.OpenApi.Tests.csproj
+  s_d6b825e398babf::t_b5f366b0d90a16 1-18
+src/Services.Gateway/Program.cs
+  s_d6b825e398babf::t_1b0d82a88662ee 1-37
+tests/Services.Gateway.Tests/GatewayFactory.cs
+  s_d6b825e398babf::t_fe26d5448006f7 1-58
+src/ServiceB.OpenApi/ServiceB.OpenApi.csproj
+  s_d6b825e398babf::t_a56e75de76761d 2-18
+src/ServiceA.OpenApi/Dockerfile
+  s_d6b825e398babf::t_a56e75de76761d 4,10,13
+src/ServiceC.OpenApi/ServiceC.OpenApi.csproj
+  s_d6b825e398babf::t_a56e75de76761d 3,9-10
+src/ServiceA.OpenApi/Program.cs
+  s_d6b825e398babf::t_a56e75de76761d 1,3,5-7,9-15
+tests/ServiceA.OpenApi.Tests/ServiceEndpointTests.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-61
+tests/ServiceA.OpenApi.Tests/ServiceAFactory.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-2,5,7-11,13-15,17-18
+tests/Services.Gateway.Tests/Services.Gateway.Tests.csproj
+  s_d6b825e398babf::t_b5f366b0d90a16 1-18
+src/Services.Gateway/appsettings.json
+  s_d6b825e398babf::t_ad9ca6c2eeea1e 14-16
+tests/ServiceA.OpenApi.Tests/ServiceA.OpenApi.Tests.csproj
+  s_d6b825e398babf::t_b5f366b0d90a16 1-18
+src/ServiceC.OpenApi/appsettings.json
+  s_d6b825e398babf::t_a56e75de76761d 8,14-16,18-20,26-27
+Ocelot.Gateway.Eureka.ServiceDiscovery.Demo.sln
+  s_d6b825e398babf::t_ad4d1967e051e9 24-25
+  s_d6b825e398babf::t_68ed2cd403ecc8 26
+  s_d6b825e398babf::t_b5f366b0d90a16 31-40,44-45,47-48,53-56,59-62,65-66,69-70,73-76,79-82,85-88,91-94,97-100,103-154,166-169
+tests/ServiceC.OpenApi.Tests/ServiceC.OpenApi.Tests.csproj
+  s_d6b825e398babf::t_b5f366b0d90a16 1-18
+src/ServiceC.OpenApi/Dockerfile
+  s_d6b825e398babf::t_a56e75de76761d 4,10,13
+tests/ServiceB.OpenApi.Tests/ServiceBFactory.cs
+  s_d6b825e398babf::t_b5f366b0d90a16 1-2,5,7-11,13-15,17-18
+src/ServiceA.OpenApi/ServiceA.OpenApi.csproj
+  s_d6b825e398babf::t_a56e75de76761d 3,9-10
+src/Services.Gateway/ocelot.Docker.json
+  s_d6b825e398babf::t_98171a7c58dba8 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "0.8.13",
+  "client_id": "ctg-provenance",
+  "client_version": "0.8.13",
+  "base_commit_sha": "ec4079046ae4a5892214153686812d68970b2a74",
+  "prompts": {},
+  "sessions": {
+    "s_d6b825e398babf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6377678f-d3af-4761-aecb-a6b06c202132",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matjaž Bravc <matjaz.bravc@comtradegaming.com>"
+    }
+  }
+}
